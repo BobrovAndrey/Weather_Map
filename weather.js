@@ -7,21 +7,21 @@ class Weather {
     
     //Get weather from API
     async getWaether(){
-        const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.city},${this.country}&APPID=${this.apiKey}`);
-
-        console.log(response);
-
-        const data = await response.json();
-
-        console.log(data);
-        
-        return data;
-       
+            const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.city},${this.country}&APPID=${this.apiKey}`);
+            if (response.status === 200 ){
+                const data = await response.json();
+                return data;
+            }
+            else if (response.status === 404) {
+                return { error: true, message: 'Place not found!'}
+            } else {
+                return { error: true, message: 'Something went wrong!'}
+            }
 
     }
 
     changeLocation(city, country){
-        this.sity = city;
+        this.city = city;
         this.country = country;
     }
 }
